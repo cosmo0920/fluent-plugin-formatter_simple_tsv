@@ -20,7 +20,6 @@ class SimpleTsvFormatterTest < ::Test::Unit::TestCase
     assert_equal([], formatter.keys)
 
     formatter.configure(
-      'delimiter' => ',',
       'keys'      => 'key1,key2',
     )
 
