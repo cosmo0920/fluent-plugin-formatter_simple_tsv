@@ -29,6 +29,7 @@ For example, for out_file plugin:
   type file
   path /tmp/tsv_test
   format simple_tsv
+  keys key1,key2
 </match>
 ```
 ## Parameters
