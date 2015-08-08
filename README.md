@@ -1,4 +1,4 @@
-# Fluent::Plugin::FormatterSimpleTsv
+# fluent-plugin-formatter_simple_tsv
 
 Fluentd Simple TSV formatter plugin
 
@@ -33,7 +33,7 @@ For example, for out_file plugin:
 ```
 ## Parameters
 
-- **keys** (String required) Specify "key1,key2,key3" format. This field is interpret ["key1", "key2", "key3"] internally. Only specified key's value will be formatted.
+- **keys** (String. required) Specify "key1,key2,key3" format. This field is interpret ["key1", "key2", "key3"] internally. Only specified key's value will be formatted.
 - **include_time_key** (Boolean, Optional, defaults to false) If true, the time field (as specified by the time_key parameter) is kept in the record.
 - **time_key** (String, xOptional, defaults to “time”) The field name for the time key.
 - **time_format** (String. Optional) By default, the output format is iso8601 (e.g. “2008-02-01T21:41:49”). One can specify their own format with this parameter.
