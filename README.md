@@ -1,5 +1,7 @@
 # fluent-plugin-formatter_simple_tsv
 
+[![Build Status](https://travis-ci.org/cosmo0920/fluent-plugin-formatter_simple_tsv.svg?branch=master)](https://travis-ci.org/cosmo0920/fluent-plugin-formatter_simple_tsv)
+
 Fluentd Simple TSV formatter plugin
 
 ## Installation
