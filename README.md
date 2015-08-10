@@ -20,6 +20,10 @@ Or install it yourself as:
 
     $ gem install fluent-plugin-formatter_simple_tsv
 
+Or using `fluent-gem` command as:
+
+    $ fluent-gem install fluent-plugin-formatter_simple_tsv
+
 ## Configuration Example
 
 Use out_xxx plugins which support Formatter feature together.
