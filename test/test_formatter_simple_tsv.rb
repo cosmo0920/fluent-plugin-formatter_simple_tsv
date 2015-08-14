@@ -1,6 +1,4 @@
 require_relative 'test_helper'
-require 'fluent/formatter'
-require 'fluent/plugin/formatter_simple_tsv'
 
 class SimpleTsvFormatterTest < ::Test::Unit::TestCase
   def setup
