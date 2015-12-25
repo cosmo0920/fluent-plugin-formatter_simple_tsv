@@ -2,17 +2,17 @@ require_relative '../test_helper'
 
 class SimpleTsvFormatterTest < ::Test::Unit::TestCase
   def setup
-    @formatter = Fluent::Plugin.new_formatter('simple_tsv')
+    @formatter = create_driver
     @time = Fluent::Engine.now
     @tag = 'tag'
   end
 
-  def e(name, arg='', attrs={}, elements=[])
-    Fluent::Config::Element.new(name, arg, attrs, elements)
+  def create_driver(conf={})
+    Fluent::Test::FormatterTestDriver.new(Fluent::TextFormatter::SimpleTsvFormatter)
   end
 
   def configure(conf)
-    @formatter.configure(e('ROOT', '', {}.merge(conf)))
+    @formatter.configure({}.merge(conf))
   end
 
   def test_format_empty_configure
@@ -22,13 +22,13 @@ class SimpleTsvFormatterTest < ::Test::Unit::TestCase
   end
 
   def test_config_params
-    formatter = Fluent::Plugin.new_formatter('simple_tsv')
-    assert_equal([], formatter.keys)
+    formatter = create_driver
+    assert_equal([], formatter.instance.keys)
 
-    conf = e('ROOT', '', {'keys' => 'key1,key2'})
+    conf = {'keys' => 'key1,key2'}
     formatter.configure(conf)
 
-    assert_equal(["key1", "key2"], formatter.keys)
+    assert_equal(["key1", "key2"], formatter.instance.keys)
   end
 
 
