@@ -53,40 +53,4 @@ class SimpleTsvFormatterTest < ::Test::Unit::TestCase
                                            })
     assert_equal("awesome\tawesome3\n", formatted)
   end
-
-  def test_format_with_time
-    configure('keys' => 'key1,key3',
-              'include_time_key' => 'true',
-              'time_format' => '%Y')
-    formatted = @formatter.instance.format(@tag, @time, {
-                                             'key1' => 'awesome',
-                                             'key2' => 'awesome2',
-                                             'key3' => 'awesome3',
-                                           })
-    assert_equal("awesome\tawesome3\t#{Time.now.year}\n", formatted)
-  end
-
-  def test_format_with_tag
-    configure('keys' => 'key1,key3',
-              'include_tag_key' => 'true')
-    formatted = @formatter.instance.format(@tag, @time, {
-                                             'key1' => 'awesome',
-                                             'key2' => 'awesome2',
-                                             'key3' => 'awesome3',
-                                           })
-    assert_equal("awesome\tawesome3\ttag\n", formatted)
-  end
-
-  def test_format_with_tag_and_time
-    configure('keys' => 'key1,key3',
-              'include_tag_key' => 'true',
-              'include_time_key' => 'true',
-              'time_format' => '%Y')
-    formatted = @formatter.instance.format(@tag, @time, {
-                                             'key1' => 'awesome',
-                                             'key2' => 'awesome2',
-                                             'key3' => 'awesome3',
-                                           })
-    assert_equal("awesome\tawesome3\ttag\t#{Time.now.year}\n", formatted)
-  end
 end
