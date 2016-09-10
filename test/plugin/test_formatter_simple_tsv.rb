@@ -1,6 +1,9 @@
 require_relative '../test_helper'
+require 'fluent/test/driver/formatter'
 
 class SimpleTsvFormatterTest < ::Test::Unit::TestCase
+  include Fluent::PluginHelper::Mixin
+
   def setup
     @formatter = create_driver
     @time = Fluent::Engine.now
@@ -8,7 +11,7 @@ class SimpleTsvFormatterTest < ::Test::Unit::TestCase
   end
 
   def create_driver(conf={})
-    Fluent::Test::FormatterTestDriver.new(Fluent::TextFormatter::SimpleTsvFormatter)
+    Fluent::Test::Driver::Formatter.new(Fluent::Plugin::SimpleTsvFormatter)
   end
 
   def configure(conf)
@@ -34,20 +37,20 @@ class SimpleTsvFormatterTest < ::Test::Unit::TestCase
 
   def test_format
     configure('keys' => 'key1,key2')
-    formatted = @formatter.format(@tag, @time, {
-                                    'key1' => 'awesome',
-                                    'key2' => 'awesome2'
-                                  })
+    formatted = @formatter.instance.format(@tag, @time, {
+                                             'key1' => 'awesome',
+                                             'key2' => 'awesome2'
+                                           })
     assert_equal("awesome\tawesome2\n", formatted)
   end
 
   def test_format_keys
     configure('keys' => 'key1,key3')
-    formatted = @formatter.format(@tag, @time, {
-                                    'key1' => 'awesome',
-                                    'key2' => 'awesome2',
-                                    'key3' => 'awesome3',
-                                  })
+    formatted = @formatter.instance.format(@tag, @time, {
+                                             'key1' => 'awesome',
+                                             'key2' => 'awesome2',
+                                             'key3' => 'awesome3',
+                                           })
     assert_equal("awesome\tawesome3\n", formatted)
   end
 
@@ -55,22 +58,22 @@ class SimpleTsvFormatterTest < ::Test::Unit::TestCase
     configure('keys' => 'key1,key3',
               'include_time_key' => 'true',
               'time_format' => '%Y')
-    formatted = @formatter.format(@tag, @time, {
-                                    'key1' => 'awesome',
-                                    'key2' => 'awesome2',
-                                    'key3' => 'awesome3',
-                                  })
+    formatted = @formatter.instance.format(@tag, @time, {
+                                             'key1' => 'awesome',
+                                             'key2' => 'awesome2',
+                                             'key3' => 'awesome3',
+                                           })
     assert_equal("awesome\tawesome3\t#{Time.now.year}\n", formatted)
   end
 
   def test_format_with_tag
     configure('keys' => 'key1,key3',
               'include_tag_key' => 'true')
-    formatted = @formatter.format(@tag, @time, {
-                                    'key1' => 'awesome',
-                                    'key2' => 'awesome2',
-                                    'key3' => 'awesome3',
-                                  })
+    formatted = @formatter.instance.format(@tag, @time, {
+                                             'key1' => 'awesome',
+                                             'key2' => 'awesome2',
+                                             'key3' => 'awesome3',
+                                           })
     assert_equal("awesome\tawesome3\ttag\n", formatted)
   end
 
@@ -79,11 +82,11 @@ class SimpleTsvFormatterTest < ::Test::Unit::TestCase
               'include_tag_key' => 'true',
               'include_time_key' => 'true',
               'time_format' => '%Y')
-    formatted = @formatter.format(@tag, @time, {
-                                    'key1' => 'awesome',
-                                    'key2' => 'awesome2',
-                                    'key3' => 'awesome3',
-                                  })
+    formatted = @formatter.instance.format(@tag, @time, {
+                                             'key1' => 'awesome',
+                                             'key2' => 'awesome2',
+                                             'key3' => 'awesome3',
+                                           })
     assert_equal("awesome\tawesome3\ttag\t#{Time.now.year}\n", formatted)
   end
 end

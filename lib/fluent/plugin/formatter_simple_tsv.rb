@@ -1,20 +1,35 @@
-module Fluent
-  module TextFormatter
-    class SimpleTsvFormatter < Formatter
-      Plugin.register_formatter('simple_tsv', self)
+require 'fluent/plugin/formatter'
 
-      include Configurable
-      include HandleTagAndTimeMixin
+module Fluent
+  module Plugin
+    module Inject
+      module Mixin
+        require 'fluent/plugin_helper'
+        include Fluent::PluginHelper::Mixin
+
+        helpers :inject, :compat_parameters
+      end
+    end
+  end
+end
+
+module Fluent
+  module Plugin
+    class SimpleTsvFormatter < Formatter
+      Fluent::Plugin.register_formatter('simple_tsv', self)
+
+      include Plugin::Inject::Mixin
 
       config_param :keys, :default => [] do |val|
         val.split(',')
       end
 
       def configure(conf)
+        compat_parameters_convert(conf, :inject)
         super
 
         if @keys.empty?
-          raise ConfigError, "keys option is required on simple_tsv formatter"
+          raise Fluent::ConfigError, "keys option is required on simple_tsv formatter"
         end
       end
 
@@ -22,8 +37,8 @@ module Fluent
         selected = record.select {|key, val|
           @keys.include?(key)
         }
-        filter_record(tag, time, selected)
-        formatted = selected.inject('') { |result, pair|
+        injected = inject_values_to_record(tag, time, selected)
+        formatted = injected.inject('') { |result, pair|
           result << "\t" if result.length.nonzero?
           result << "#{pair.last}"
         }
