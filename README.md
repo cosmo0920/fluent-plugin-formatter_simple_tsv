@@ -37,10 +37,12 @@ For example, for out_file plugin:
 
 ```
 <match raw.**>
-  type file
+  @type file
   path /tmp/tsv_test
-  format simple_tsv
-  keys key1,key2
+  <format>
+    @type simple_tsv
+    keys key1,key2
+  </format>
 </match>
 ```
 ## Parameters
