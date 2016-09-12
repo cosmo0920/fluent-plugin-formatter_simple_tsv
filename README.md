@@ -33,7 +33,7 @@ Or install it yourself as:
 
 Use out_xxx plugins which support Formatter feature together.
 
-For example, for out_file plugin:
+For example, for out_file plugin (v0.14's structured style):
 
 ```
 <match raw.**>
